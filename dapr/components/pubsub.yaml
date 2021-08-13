@@ -1,0 +1,30 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pubsub
+spec:
+  type: pubsub.rabbitmq
+  version: v1
+  metadata:
+  - name: host
+    value: amqp://dapr:dapr@rabbitmq:5672
+  - name: durable
+    value: "true"
+  - name: deletedWhenUnused
+    value: "false"
+  - name: prefetchCount
+    value: "30"
+  - name: deliveryMode
+    value: "2"
+  - name: requeueInFailure
+    value: "true"
+  - name: autoAck
+    value: "false"
+  - name: reconnectWait
+    value: "0"
+  - name: concurrencyMode
+    value: parallel
+  - name: backOffPolicy
+    value: "exponential"
+  - name: backOffMaxRetries
+    value: "10"

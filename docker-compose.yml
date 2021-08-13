@@ -1,0 +1,115 @@
+version: '3.4'
+
+services:
+  bulkie-api:
+    image: bulkie-api
+    build:
+      context: .
+      dockerfile: src/Services/Bulkie/Bulkie.API/Dockerfile
+    depends_on:
+      - rabbitmq
+
+  bulkie-api-dapr:
+    image: "daprio/daprd"
+    network_mode: "service:bulkie-api"
+    command: ["./daprd",
+      "-app-id", "bulkie-api",
+      "-app-port", "80",
+      "-log-level", "debug",
+      "-components-path", "/components",
+      "-config", "/configuration/config.yaml",
+      "-placement-host-address", "dapr-placement:50000",
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+    depends_on:
+      - bulkie-api
+      - rabbitmq
+
+  dapr-placement:
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50000", "-log-level", "debug"]
+    ports:
+      - "50000:50000"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "5379:6379"
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    ports:
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "dapr"
+      RABBITMQ_DEFAULT_PASS: "dapr"
+
+  bulkie-file-processor-api:
+    image: bulkie-file-processor-api
+    build:
+      context: .
+      dockerfile: src/Services/Bulkie/BulkieFileProcessor.API/Dockerfile
+
+  bulkie-file-processor-api-dapr:
+    image: "daprio/daprd"
+    network_mode: "service:bulkie-file-processor-api"
+    command: ["./daprd",
+      "-app-id", "bulkie-file-processor-api",
+      "-app-port", "80",
+      "-log-level", "debug",
+      "-components-path", "/components",
+      "-config", "/configuration/config.yaml",
+      "-placement-host-address", "dapr-placement:50000",
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+    depends_on:
+      - bulkie-file-processor-api
+      - rabbitmq
+
+  bulkie-data:
+    image: postgres:alpine
+    ports:
+      - "5435:5432"
+    volumes:
+      - bulkie_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "bulkie"
+      POSTGRES_PASSWORD: "bulkie"
+      POSTGRES_MULTIPLE_DATABASES: "bulkie,filereference"
+    command: "--max-prepared-transactions=110"
+
+  jaeger:
+    image: jaegertracing/all-in-one
+    ports:
+      - "16686:16686"
+      - "9412:9412"
+    environment:
+        COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+  seq:
+    image: datalust/seq
+    environment:
+      ACCEPT_EULA: 'Y'
+      SEQ_FIRSTRUN_ADMINUSERNAME: bulkie
+      SEQ_FIRSTRUN_ADMINPASSWORD: bulkie
+    ports:
+      - 8033:80
+
+  minio:
+    image: 'bitnami/minio:2021'
+    ports:
+        - '9000:9000'
+    environment:
+      MINIO_ACCESS_KEY: bulkie
+      MINIO_SECRET_KEY: bulkie123
+      MINIO_DEFAULT_BUCKETS: files
+    volumes:
+      - 'minio_data:/data'
+volumes:
+  bulkie_data:
+    driver: local
+  minio_data:
+    driver: local

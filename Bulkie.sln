@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bulkie.API", "src\Services\Bulkie\Bulkie.API\Bulkie.API.csproj", "{F20F05D8-B0B3-4F93-8366-8074A571D438}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{54A8BAE7-0F47-4B57-BAC2-A86B1D9928A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2882F1C7-52FA-41FA-A675-6CD408863A35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{2C354159-A037-4922-8675-8473031AEAE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{74652F34-56C7-480B-92CB-DC7D38EF1206}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\components\pubsub.yaml = dapr\components\pubsub.yaml
+		dapr\components\statestore.yaml = dapr\components\statestore.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{7D52E17C-5973-4F50-8709-5C872F0C72C6}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\configuration\config.yaml = dapr\configuration\config.yaml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks", "src\BuildingBlocks\BuildingBlocks.csproj", "{72686395-0D62-4E28-927B-1892513D7439}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkieFileProcessor.API", "src\Services\Bulkie\BulkieFileProcessor.API\BulkieFileProcessor.API.csproj", "{2EB42336-8BE5-4280-8D59-07FD52A9F293}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F20F05D8-B0B3-4F93-8366-8074A571D438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20F05D8-B0B3-4F93-8366-8074A571D438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20F05D8-B0B3-4F93-8366-8074A571D438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F20F05D8-B0B3-4F93-8366-8074A571D438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54A8BAE7-0F47-4B57-BAC2-A86B1D9928A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54A8BAE7-0F47-4B57-BAC2-A86B1D9928A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54A8BAE7-0F47-4B57-BAC2-A86B1D9928A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54A8BAE7-0F47-4B57-BAC2-A86B1D9928A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72686395-0D62-4E28-927B-1892513D7439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72686395-0D62-4E28-927B-1892513D7439}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72686395-0D62-4E28-927B-1892513D7439}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72686395-0D62-4E28-927B-1892513D7439}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EB42336-8BE5-4280-8D59-07FD52A9F293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EB42336-8BE5-4280-8D59-07FD52A9F293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EB42336-8BE5-4280-8D59-07FD52A9F293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EB42336-8BE5-4280-8D59-07FD52A9F293}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2C354159-A037-4922-8675-8473031AEAE4} = {2882F1C7-52FA-41FA-A675-6CD408863A35}
+		{74652F34-56C7-480B-92CB-DC7D38EF1206} = {2C354159-A037-4922-8675-8473031AEAE4}
+		{7D52E17C-5973-4F50-8709-5C872F0C72C6} = {2C354159-A037-4922-8675-8473031AEAE4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1301414D-6797-4A98-AF5D-83F49D6E3618}
+	EndGlobalSection
+EndGlobal
