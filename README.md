@@ -19,3 +19,8 @@ Dapr Building blocks:
 Event driven:
 * Status updates
 * File processing submissions
+
+
+Below shows a sequence diagram of the flow of the creation Bulkie process:
+
+![Sequence diagram](docs/images/bulkie-seq.png)
