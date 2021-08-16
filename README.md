@@ -6,7 +6,7 @@ Dapr event-driven reference application.
 
 
 ## What does it do?
-* Imports files into the system
+* Imports a batch of files ("Bulkie") into the system.
 * Tracks status of imports
 
 ## How is it implemented?
@@ -21,6 +21,6 @@ Event driven:
 * File processing submissions
 
 
-Below shows a sequence diagram of the flow of the creation Bulkie process:
+Below shows a sequence diagram of the flow of the creation of a Bulkie:
 
 ![Sequence diagram](docs/images/bulkie-seq.png)
