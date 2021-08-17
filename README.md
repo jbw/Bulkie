@@ -21,6 +21,6 @@ Event driven:
 * File processing submissions
 
 
-Below shows a sequence diagram of the flow of the creation of a Bulkie:
+Below shows a sequence diagram for the creation of a Bulkie (with Dapr building blocks included):
 
 ![Sequence diagram](docs/images/bulkie-seq.png)
