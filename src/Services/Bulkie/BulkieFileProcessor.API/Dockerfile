@@ -7,6 +7,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["src/Services/Bulkie/BulkieFileProcessor.API/BulkieFileProcessor.API.csproj", "src/Services/Bulkie/BulkieFileProcessor.API/"]
+COPY ["src/BuildingBlocks/BuildingBlocks.csproj", "src/BuildingBlocks/"]
 RUN dotnet restore "src/Services/Bulkie/BulkieFileProcessor.API/BulkieFileProcessor.API.csproj"
 COPY . .
 WORKDIR "/src/src/Services/Bulkie/BulkieFileProcessor.API"
