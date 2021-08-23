@@ -7,7 +7,7 @@ metadata:
     app: bulkie
     service: bulkie
 data:
-  ConnectionString: host=postgres-postgresql.bulkie.svc.cluster.local;database=bulkie;user id=postgres;password=T9zA8GZthL 
+  ConnectionString: host=postgres-postgresql.bulkie.svc.cluster.local;database=bulkie;user id=postgres;password=R5m2rfWO39 
   ASPNETCORE_ENVIRONMENT: Development
   ASPNETCORE_URLS: http://0.0.0.0:80
   CheckUpdateTime: "30000"
@@ -57,7 +57,18 @@ spec:
           envFrom:
             - configMapRef:
                 name: bulkie-cm
-
+          env:
+            - name: BulkieDbConfiguration__Host
+              value: "postgres-postgresql.bulkie.svc.cluster.local"
+            - name: BulkieDbConfiguration__Database
+              value: "bulkie"
+            - name: BulkieDbConfiguration__Username
+              value: "postgres"
+            - name: BulkieDbConfiguration__Password
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-postgresql
+                  key: postgresql-password
 ---
 
 apiVersion: v1

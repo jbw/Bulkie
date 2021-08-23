@@ -44,14 +44,23 @@ namespace Bulkie.API
                     });
                 });
 
-            services.AddCustomDbContext(Configuration);
-
             services.AddActors(options =>
             {
                 options.Actors.RegisterActor<BulkieImportActor>();
             });
 
-            services.AddDatabaseHealthCheck(Configuration);
+
+
+
+            var fileReferencesDbConfiguration = Configuration
+                .GetSection(nameof(BulkieDbConfiguration))
+                .Get<BulkieDbConfiguration>();
+
+            var fileReferencesDbConnectionString = fileReferencesDbConfiguration.ToConnectionString();
+
+            services.AddCustomDbContext(fileReferencesDbConnectionString);
+
+            services.AddDatabaseHealthCheck(fileReferencesDbConnectionString);
 
             services.AddScoped<IBulkieRepository, BulkieRepository>();
             services.AddScoped<IEventBus, DaprEventBus>();
@@ -102,23 +111,23 @@ namespace Bulkie.API
 
     static class CustomExtensionsMethods
     {
-        public static IServiceCollection AddDatabaseHealthCheck(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDatabaseHealthCheck(this IServiceCollection services, string connectionString)
         {
             var hcBuilder = services.AddHealthChecks();
 
             hcBuilder
                 .AddNpgSql(
-                    configuration["ConnectionString"],
+                    connectionString,
                     name: "self",
                     tags: new string[] { "bulkie-db" });
 
             return services;
         }
-        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<BulkieContext>(options =>
             {
-                options.UseNpgsql(configuration["ConnectionString"],
+                options.UseNpgsql(connectionString,
                     npgsqlOptionsAction: sqlOptions =>
                     {
                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);

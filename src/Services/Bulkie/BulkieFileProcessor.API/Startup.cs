@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Minio;
@@ -46,7 +45,13 @@ namespace BulkieFileProcessor.API
                     });
                 });
 
-            services.AddCustomDbContext(Configuration);
+            var fileReferencesDbConfiguration = Configuration
+                .GetSection(nameof(FileReferenceDbConfiguration))
+                .Get<FileReferenceDbConfiguration>();
+
+            var fileReferencesDbConnectionString = fileReferencesDbConfiguration.ToConnectionString();
+
+            services.AddCustomDbContext(fileReferencesDbConnectionString);
 
             services.AddMinio(options =>
             {
@@ -58,8 +63,8 @@ namespace BulkieFileProcessor.API
             services.AddScoped<IBlobRepository, BlobRepository>();
             services.AddScoped<IFileReferenceRepository, FileReferenceRepository>();
 
-            services.AddCustomHealthCheck(Configuration);
-             
+            services.AddCustomHealthCheck(fileReferencesDbConnectionString);
+
             services.AddScoped<IEventBus, DaprEventBus>();
 
             services.AddTransient<BulkieFileStatusChangedToSubmittedIntegrationEventHandler>();
@@ -106,27 +111,25 @@ namespace BulkieFileProcessor.API
         }
     }
 
+
     static class CustomExtensionsMethods
     {
-        public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services, string connectionString)
         {
             var hcBuilder = services.AddHealthChecks();
 
             hcBuilder
                 .AddMinio(sp => sp.GetRequiredService<MinioClient>())
-                .AddNpgSql(
-                    configuration["ConnectionString"],
-                    name: "self",
-                    tags: new string[] { "filereferences-db" });
+                .AddNpgSql(connectionString, name: "self", tags: new string[] { "filereferences-db" });
 
             return services;
         }
 
-        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<FileReferenceContext>(options =>
             {
-                options.UseNpgsql(configuration["ConnectionString"],
+                options.UseNpgsql(connectionString,
                     npgsqlOptionsAction: sqlOptions =>
                     {
                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
