@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
@@ -49,6 +50,8 @@ namespace Bulkie.API
             {
                 options.Actors.RegisterActor<BulkieImportActor>();
             });
+
+            services.AddDatabaseHealthCheck(Configuration);
 
             services.AddScoped<IBulkieRepository, BulkieRepository>();
             services.AddScoped<IEventBus, DaprEventBus>();
@@ -99,6 +102,18 @@ namespace Bulkie.API
 
     static class CustomExtensionsMethods
     {
+        public static IServiceCollection AddDatabaseHealthCheck(this IServiceCollection services, IConfiguration configuration)
+        {
+            var hcBuilder = services.AddHealthChecks();
+
+            hcBuilder
+                .AddNpgSql(
+                    configuration["ConnectionString"],
+                    name: "self",
+                    tags: new string[] { "bulkie-db" });
+
+            return services;
+        }
         public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<BulkieContext>(options =>
