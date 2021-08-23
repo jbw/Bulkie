@@ -50,7 +50,7 @@ helm install postgres bitnami/postgresql -n bulkie
 
 ### Minio
 ```
-helm install minio bitnami/minio -n bulkie
+helm install minio bitnami/minio -n bulkie --set defaultBuckets=files
 ```
 
 Create bucket called: `files`
