@@ -1,3 +1,4 @@
+using Bulkie.API.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -7,7 +8,11 @@ namespace Bulkie.API
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            host.MigrateDatabaseContext<BulkieContext>();
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -18,3 +23,4 @@ namespace Bulkie.API
                 });
     }
 }
+

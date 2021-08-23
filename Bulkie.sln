@@ -24,7 +24,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configurat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks", "src\BuildingBlocks\BuildingBlocks.csproj", "{72686395-0D62-4E28-927B-1892513D7439}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkieFileProcessor.API", "src\Services\Bulkie\BulkieFileProcessor.API\BulkieFileProcessor.API.csproj", "{2EB42336-8BE5-4280-8D59-07FD52A9F293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkieFileProcessor.API", "src\Services\Bulkie\BulkieFileProcessor.API\BulkieFileProcessor.API.csproj", "{2EB42336-8BE5-4280-8D59-07FD52A9F293}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHostCustomisation", "src\WebHostCustomisation\WebHostCustomisation.csproj", "{AF1CE051-B483-42A9-9D26-6377FAFB657B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{2EB42336-8BE5-4280-8D59-07FD52A9F293}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EB42336-8BE5-4280-8D59-07FD52A9F293}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EB42336-8BE5-4280-8D59-07FD52A9F293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF1CE051-B483-42A9-9D26-6377FAFB657B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF1CE051-B483-42A9-9D26-6377FAFB657B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF1CE051-B483-42A9-9D26-6377FAFB657B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF1CE051-B483-42A9-9D26-6377FAFB657B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,6 +7,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["src/Services/Bulkie/BulkieFileProcessor.API/BulkieFileProcessor.API.csproj", "src/Services/Bulkie/BulkieFileProcessor.API/"]
+COPY ["src/WebHostCustomisation/WebHostCustomisation.csproj", "src/WebHostCustomisation/"]
 COPY ["src/BuildingBlocks/BuildingBlocks.csproj", "src/BuildingBlocks/"]
 RUN dotnet restore "src/Services/Bulkie/BulkieFileProcessor.API/BulkieFileProcessor.API.csproj"
 COPY . .
@@ -15,7 +16,6 @@ RUN dotnet build "BulkieFileProcessor.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "BulkieFileProcessor.API.csproj" -c Release -o /app/publish
-ADD ["src/Services/Bulkie/BulkieFileProcessor.API/Setup", "/app/publish/Setup"]
 
 FROM base AS final
 WORKDIR /app
