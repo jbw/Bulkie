@@ -8,7 +8,7 @@ spec:
   version: v1
   metadata:
   - name: host
-    value: amqp://rabbitmq:5672
+    value: amqp://rabbitmq:rabbitmq@rabbitmq:5672
   - name: durable
     value: "true"
   - name: deletedWhenUnused
