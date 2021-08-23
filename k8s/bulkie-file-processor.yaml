@@ -49,7 +49,21 @@ spec:
           envFrom:
             - configMapRef:
                 name: bulkie-cm
-
+          env:
+            - name: Minio__Host
+              value: minio
+            - name: Minio__Port
+              value: "9000"
+            - name: Minio__AccessKey
+              valueFrom:
+                secretKeyRef:
+                  name: minio
+                  key: access-key
+            - name: Minio__SecretKey      
+              valueFrom:
+                secretKeyRef:
+                  name: minio
+                  key: secret-key
 ---
 
 apiVersion: v1
