@@ -1,4 +1,3 @@
-using Bulkie.API.Infrastructure;
 using Bulkie.BuildingBlocks.EventBus;
 using Bulkie.BuildingBlocks.EventBus.Abstractions;
 using BulkieFileProcessor.API.Infrastructure;
@@ -11,9 +10,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Minio;
 using Minio.AspNetCore;
+using Minio.AspNetCore.HealthChecks;
 using System;
 using System.Reflection;
 using System.Text.Json;
@@ -56,8 +58,8 @@ namespace BulkieFileProcessor.API
             services.AddScoped<IBlobRepository, BlobRepository>();
             services.AddScoped<IFileReferenceRepository, FileReferenceRepository>();
 
-            services.AddHealthChecks();
-
+            services.AddCustomHealthCheck(Configuration);
+             
             services.AddScoped<IEventBus, DaprEventBus>();
 
             services.AddTransient<BulkieFileStatusChangedToSubmittedIntegrationEventHandler>();
@@ -106,6 +108,20 @@ namespace BulkieFileProcessor.API
 
     static class CustomExtensionsMethods
     {
+        public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services, IConfiguration configuration)
+        {
+            var hcBuilder = services.AddHealthChecks();
+
+            hcBuilder
+                .AddMinio(sp => sp.GetRequiredService<MinioClient>())
+                .AddNpgSql(
+                    configuration["ConnectionString"],
+                    name: "self",
+                    tags: new string[] { "filereferences-db" });
+
+            return services;
+        }
+
         public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<FileReferenceContext>(options =>

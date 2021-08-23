@@ -42,6 +42,14 @@ spec:
         - name: bulkie-fileprocessor-api
           image: bulkie/bulkie-fileprocessor-api:latest
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 80
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
           ports:
             - name: http
               containerPort: 80
