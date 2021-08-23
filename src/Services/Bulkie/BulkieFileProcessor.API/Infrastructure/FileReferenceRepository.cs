@@ -30,7 +30,7 @@ namespace BulkieFileProcessor.API.Infrastructure
                 FileHash = hash
             };
 
-            await _fileReferenceContext.AddAsync(fileReference);
+            await _fileReferenceContext.AddAsync(newFileReference);
             await _fileReferenceContext.SaveChangesAsync();
 
             return newFileReference;

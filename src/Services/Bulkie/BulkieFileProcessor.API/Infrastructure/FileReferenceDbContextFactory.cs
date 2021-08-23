@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace Bulkie.API.Infrastructure
+namespace BulkieFileProcessor.API.Infrastructure
 {
     public class FileReferenceDbContextFactory : IDesignTimeDbContextFactory<FileReferenceContext>
     {
