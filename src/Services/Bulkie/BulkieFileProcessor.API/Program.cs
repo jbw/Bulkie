@@ -1,3 +1,4 @@
+using BulkieFileProcessor.API.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -9,7 +10,7 @@ namespace BulkieFileProcessor.API
         {
             var host = CreateHostBuilder(args).Build();
 
-            host.MigrateDatabaseContext<BulkieContext>();
+            host.MigrateDatabaseContext<FileReferenceContext>();
 
             host.Run();
         }

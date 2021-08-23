@@ -2,7 +2,7 @@
 using BulkieFileProcessor.API.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bulkie.API.Infrastructure
+namespace BulkieFileProcessor.API.Infrastructure
 {
 
     public class FileReferenceContext : DbContext
