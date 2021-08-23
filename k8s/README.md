@@ -1,6 +1,6 @@
+# Deploy Bulkie to K8s
 
-
-## Minikube
+## Setup a cluster using Minikube
 
 ```
 minikube start --addons=ingress
@@ -17,19 +17,23 @@ docker build -t bulkie/bulkie-api -f src/Services/Bulkie/Bulkie.API/Dockerfile .
 docker build -t bulkie/bulkie-fileprocessor-api -f src/Services/Bulkie/BulkieFileProcessor.API/Dockerfile .
 ```
 
-## Dapr
+## Install Dapr
 
 ```
 dapr init -k
 ```
 
-## Helm
+## Helm install dependencies
 ```
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 
 ```
 helm repo update
+```
+
+```
+kubectl apply -f namespaces.yaml
 ```
 
 ### RabbitMQ
